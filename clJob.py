@@ -2,9 +2,9 @@
 class Job():
     """Represent job to-do in schedule"""
 
-    def __init__(self, aItineraryName, aItineraryColor, aTaskNumber, aItineraryNumber, MachineNameList, aMachineID, aDuration):
+    def __init__(self, aItineraryName, aItineraryColor, aTaskNumber, aItineraryNumber, aMachineName, aMachineID, aDuration):
         self.itinerary = aItineraryName
-        self.machinesList = MachineNameList
+        self.machine = aMachineName
         self.machineID = aMachineID
         self.startTime = 0
         self.duration = aDuration
