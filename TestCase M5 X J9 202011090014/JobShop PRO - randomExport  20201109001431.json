@@ -51,7 +51,7 @@
                 {
                     "taskName": "Task 4",
                     "taskMachine": {
-                        "machineName": "M4"
+                        "machineName": ["M4","M5"]
                     },
                     "taskDuration": 10
                 },

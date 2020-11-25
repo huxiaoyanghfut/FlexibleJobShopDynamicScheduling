@@ -47,6 +47,7 @@ def algorithmSPT(aJobsList, machinesList):
     # initialize machines times and get
     # first waiting operations for each machine
     # global machinesList, itinerariesList
+    #TODO 修改以处理一个任务可选多台机器的问题 .machine
     for machine in machinesList:
         waitingOperations[machine.name] = [job for job in aJobsList if
                                            job.machine == machine.name and job.idOperation == 1]
@@ -97,7 +98,6 @@ def getWaitingOperationsSPT(aJobsList, time, machinesList):
     """Get waiting jobs at current time in shortest duration order"""
 
     incomingOperations = {}
-    assignedJobsForMachine = []
 
     # global machinesList
     for mach in machinesList:
