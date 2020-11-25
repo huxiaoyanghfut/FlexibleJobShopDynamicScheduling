@@ -1,0 +1,33 @@
+{
+            "itineraryName": "Itinerary 0",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 14
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M2"
+                    },
+                    "taskDuration": 6
+                },
+                {
+                    "taskName": "Task 3",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 10
+                },
+                {
+                    "taskName": "Task 4",
+                    "taskMachine": {
+                        "machineName": "M3"
+                    },
+                    "taskDuration": 14
+                }
+            ]
+        }

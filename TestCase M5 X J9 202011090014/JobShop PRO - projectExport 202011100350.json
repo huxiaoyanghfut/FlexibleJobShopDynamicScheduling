@@ -1,0 +1,227 @@
+{
+    "itineraries": [
+        {
+            "itineraryName": "Itinerary 1",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M2"
+                    },
+                    "taskDuration": 20.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 2",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M5"
+                    },
+                    "taskDuration": 5.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 3",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M5"
+                    },
+                    "taskDuration": 23.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 14.0
+                },
+                {
+                    "taskName": "Task 3",
+                    "taskMachine": {
+                        "machineName": "M2"
+                    },
+                    "taskDuration": 6.0
+                },
+                {
+                    "taskName": "Task 4",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 10.0
+                },
+                {
+                    "taskName": "Task 5",
+                    "taskMachine": {
+                        "machineName": "M3"
+                    },
+                    "taskDuration": 14.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 4",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 14.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 17.0
+                },
+                {
+                    "taskName": "Task 3",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 7.0
+                },
+                {
+                    "taskName": "Task 4",
+                    "taskMachine": {
+                        "machineName": "M5"
+                    },
+                    "taskDuration": 23.0
+                },
+                {
+                    "taskName": "Task 5",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 23.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 5",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M3"
+                    },
+                    "taskDuration": 13.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 17.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 6",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 14.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 7",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 5.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 13.0
+                },
+                {
+                    "taskName": "Task 3",
+                    "taskMachine": {
+                        "machineName": "M3"
+                    },
+                    "taskDuration": 6.0
+                },
+                {
+                    "taskName": "Task 4",
+                    "taskMachine": {
+                        "machineName": "M3"
+                    },
+                    "taskDuration": 9.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 8",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 24.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M2"
+                    },
+                    "taskDuration": 23.0
+                }
+            ]
+        },
+        {
+            "itineraryName": "Itinerary 9",
+            "tasksList": [
+                {
+                    "taskName": "Task 1",
+                    "taskMachine": {
+                        "machineName": "M4"
+                    },
+                    "taskDuration": 22.0
+                },
+                {
+                    "taskName": "Task 2",
+                    "taskMachine": {
+                        "machineName": "M1"
+                    },
+                    "taskDuration": 14.0
+                }
+            ]
+        }
+    ],
+    "machines": [
+        {
+            "machineName": "M1"
+        },
+        {
+            "machineName": "M2"
+        },
+        {
+            "machineName": "M3"
+        },
+        {
+            "machineName": "M4"
+        },
+        {
+            "machineName": "M5"
+        }
+    ]
+}
