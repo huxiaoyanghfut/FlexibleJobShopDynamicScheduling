@@ -26,10 +26,10 @@ def prepareJobs(machinesList, itinerariesList):
                 if mach.name == taskObj.machine.name:
                     if itineraryObj.name == "Itinerary 0":
                         jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, 0,
-                                           taskObj.machine.name, index, taskObj.duration))
+                                           taskObj.machine, index, taskObj.duration))
                     else:
                         jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, idItinerary + 1,
-                                        taskObj.machine.name, index, taskObj.duration))
+                                        taskObj.machine, index, taskObj.duration))
                     break
     return jobsList
 
