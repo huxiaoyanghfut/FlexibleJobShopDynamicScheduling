@@ -22,15 +22,12 @@ def prepareJobs(machinesList, itinerariesList):
         itineraryColors.append(
             generate_new_color(itineraryColors, pastelFactor))  # create new color for every new itinerary
         for idTask, taskObj in enumerate(itineraryObj.tasksList):
-            for index, mach in enumerate(machinesList):
-                if mach.name == taskObj.machine.name:
-                    if itineraryObj.name == "Itinerary 0":
-                        jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, 0,
-                                           taskObj.machine, index, taskObj.duration))
-                    else:
-                        jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, idItinerary + 1,
-                                        taskObj.machine, index, taskObj.duration))
-                    break
+            if itineraryObj.name == "Itinerary 0":
+                jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, 0,
+                                   taskObj.machine, taskObj.duration))
+            else:
+                jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, idItinerary + 1,
+                                taskObj.machine, taskObj.duration))
     return jobsList
 
 
@@ -47,12 +44,27 @@ def algorithmSPT(aJobsList, machinesList):
     # initialize machines times and get
     # first waiting operations for each machine
     # global machinesList, itinerariesList
-    #TODO 修改以处理一个任务可选多台机器的问题 .machine
+
+    #TODO 修改以处理一个任务可选多台机器的问题
     for machine in machinesList:
-        waitingOperations[machine.name] = [job for job in aJobsList if
-                                           job.machine == machine.name and job.idOperation == 1]
-        waitingOperations[machine.name].sort(key=lambda j: j.duration)
         currentTimeOnMachines[machine.name] = 0
+    #初始化各机器当前等待队列
+    for machine in machinesList:
+        waitingOperations[machine.name] = []
+        for job in aJobsList:
+            if job.idOperation == 1 and machine.name in job.machine:
+                #找出当前任务可选机器中机器时间最小的机器
+                if len(job.machine) == 1:
+                    waitingOperations[machine.name].append(job)
+                else:
+                    minTimeMachine = machine.name
+                    for mac in job.machine:
+                        if currentTimeOnMachines[mac.name] <  currentTimeOnMachines[minTimeMachine]:
+                            minTimeMachine = mac.name
+                    if minTimeMachine == machine.name:
+                        waitingOperations[machine.name].append(job)
+
+        waitingOperations[machine.name].sort(key=lambda j: j.duration)
 
     time[0] = waitingOperations
 
@@ -75,7 +87,7 @@ def algorithmSPT(aJobsList, machinesList):
 
             for keyMach, tasks in operations.items():
                 if len(tasks):
-                    if float(t) < currentTimeOnMachines[tasks[0].machine]:
+                    if float(t) < currentTimeOnMachines[keyMach]:
                         continue
 
                     tasks[0].startTime = float(t)
@@ -101,7 +113,18 @@ def getWaitingOperationsSPT(aJobsList, time, machinesList):
 
     # global machinesList
     for mach in machinesList:
-        assignedJobsForMachine = [job for job in aJobsList if job.completed == False and job.machine == mach.name]
+        assignedJobsForMachine = []
+        for job in aJobsList:
+            if job.completed == False and mach.name in job.machine:
+                if len(job.machine) ==1:
+                    assignedJobsForMachine.append(job)
+                else:
+                    minTimeMachine = mach.name
+                    for mac in job.machine:
+                        if currentTimeOnMachines[mac.name] <  currentTimeOnMachines[minTimeMachine]:
+                            minTimeMachine = mac.name
+                    if minTimeMachine == mach.name:
+                        assignedJobsForMachine.append(job)
         incomingOperations[mach.name] = []
 
         for j in assignedJobsForMachine:
