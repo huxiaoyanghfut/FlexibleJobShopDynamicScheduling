@@ -1,2 +1,5 @@
+<<<<<<< HEAD
 test 1: add text
 test 2: add text2
+=======
+>>>>>>> parent of df3dba9... add text
