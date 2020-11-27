@@ -15,15 +15,16 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     ax.set_xlabel('Time', fontsize=12)  # description of axis and chart title
     ax.set_ylabel('Machines', fontsize=12)
     chartTitle = "Gantt chart  Cmax=" + str(cMax) +"\n"
+    plt.title(chartTitle, fontsize=12)
 
+
+    chartDetails = ""
     for i, itinerary in enumerate(itinerariesList):
         arr = [job for job in aJobsList if job.itinerary == itinerary.name]
         arr.sort(key=lambda x: x.endTime)
-        chartTitle = chartTitle + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
-        if not fmod(i, 10) and i != 0:
-            chartTitle = chartTitle + "\n"
+        chartDetails = chartDetails + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
 
-    plt.title(chartTitle, fontsize=10)
+    plt.suptitle(chartDetails, fontsize=10)
 
 
     # values for machines y axis
@@ -46,8 +47,7 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
         legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
     plt.legend(handles=legendsColors, fontsize=8)
 
-    seen = set()
-    uniqueItinerariesInJobList = [job for job in aJobsList if job.machine not in seen and not seen.add(job.itinerary)]
+
 
     tuplesForMachineAxis = []
     colorsForMachineAxis = []
