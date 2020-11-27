@@ -18,6 +18,6 @@ def parseNewData():
         taskMachine = imtaskList[i]['taskMachine']
         insertItinerary.tasksList.append(Task(imtaskList[i]['taskName'],
                                               float(imtaskList[i]['taskDuration']),
-                                              [ Machine(mac) for mac in taskMachine["machineName"]]))
+                                              [ mac for mac in taskMachine["machineName"]]))
     itinerariesList.append(insertItinerary)
     return itinerariesList

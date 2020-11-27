@@ -241,8 +241,6 @@ def rescheduleGetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  current
     """Get waiting jobs at current time in shortest duration order"""
 
     incomingOperations = {}
-    assignedJobsForMachine = []
-
     # global machinesList
     for mach in machinesList:
         assignedJobsForMachine = []
