@@ -37,7 +37,7 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
 
     ax.set_ylim(5, machinesTicksPos[-1] + 10)  # this is related with amout of machines and height (last machine+10) of chart.
     ax.set_xlim(0, cMax + 20)  # from zero to end time of last job (max end time in job.endtime list)
-
+    plt.show()
     # setting the legend (color and itinerary)
     legendsColors = []
     seen = set()
@@ -45,18 +45,18 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     for job in uniqueItinerariesInJobList:
         legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
     plt.legend(handles=legendsColors, fontsize=8)
-
+    plt.show()
     tuplesForMachineAxis = []
     colorsForMachineAxis = []
     for index, machLabel in enumerate(machinesNamesRev):
         for job in aJobsList:
-            if job.machine == machLabel:
+            if job.assignedMachine == machLabel:
                 tuplesForMachineAxis.append(job.getTupleStartAndDuration())
                 colorsForMachineAxis.append(job.colorOfItinerary)
         ax.broken_barh(tuplesForMachineAxis, ((index + 1) * 10, 9), facecolors=colorsForMachineAxis)
         tuplesForMachineAxis.clear()
         colorsForMachineAxis.clear()
-
+    plt.show()
     ax.xaxis.set_major_locator(ticker.MultipleLocator(10))  # this is cosmetics to set unit to 10
     for label in ax.get_xticklabels()[::2]:  # and show only every two ticks
         label.set_visible(False)
