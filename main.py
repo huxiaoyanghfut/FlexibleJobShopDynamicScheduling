@@ -1,4 +1,4 @@
-from algorithms import prepareJobs, algorithmSPT
+from algorithms import prepareJobs, algorithmSPT, reschedulingSPT
 from chartGanttCreator import createGanttChart
 from parseData import parseData
 import copy
