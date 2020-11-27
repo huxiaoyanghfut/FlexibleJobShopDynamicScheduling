@@ -45,8 +45,6 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     for job in uniqueItinerariesInJobList:
         legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
     plt.legend(handles=legendsColors, fontsize=8)
-    seen = set()
-    uniqueItinerariesInJobList = [job for job in aJobsList if job.machine not in seen and not seen.add(job.itinerary)]
 
     tuplesForMachineAxis = []
     colorsForMachineAxis = []
