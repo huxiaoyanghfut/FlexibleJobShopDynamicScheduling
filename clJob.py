@@ -2,10 +2,9 @@
 class Job():
     """Represent job to-do in schedule"""
 
-    def __init__(self, aItineraryName, aItineraryColor, aTaskNumber, aItineraryNumber, aMachineName, aMachineID, aDuration):
+    def __init__(self, aItineraryName, aItineraryColor, aTaskNumber, aItineraryNumber, aMachineName, aDuration):
         self.itinerary = aItineraryName
         self.machine = aMachineName
-        self.machineID = aMachineID
         self.startTime = 0
         self.duration = aDuration
         self.endTime = 0
@@ -14,7 +13,7 @@ class Job():
         self.idItinerary = aItineraryNumber
         self.completed = False
         self.priority = 0
-    #    self.assignedMachine = ""
+        self.assignedMachine = ""
 
     def __eq__(self, other):
         return self.itinerary == other.itinerary and self.colorOfItinerary == other.colorOfItinerary and self.machine == other.machine and self.duration == other.duration and self.completed == other.completed and self.idOperation == other.idOperation

@@ -4,35 +4,35 @@
                 {
                     "taskName": "Task 1",
                     "taskMachine": {
-                        "machineName": "M5"
+                        "machineName": ["M5"]
                     },
                     "taskDuration": 23
                 },
                 {
                     "taskName": "Task 2",
                     "taskMachine": {
-                        "machineName": "M1"
+                        "machineName": ["M1"]
                     },
                     "taskDuration": 14
                 },
                 {
                     "taskName": "Task 3",
                     "taskMachine": {
-                        "machineName": "M2"
+                        "machineName": ["M2"]
                     },
                     "taskDuration": 6
                 },
                 {
                     "taskName": "Task 4",
                     "taskMachine": {
-                        "machineName": "M4"
+                        "machineName": ["M1","M4"]
                     },
                     "taskDuration": 10
                 },
                 {
                     "taskName": "Task 5",
                     "taskMachine": {
-                        "machineName": "M3"
+                        "machineName": ["M3"]
                     },
                     "taskDuration": 14
                 }

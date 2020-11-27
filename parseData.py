@@ -34,7 +34,7 @@ def parseData():
                             tmpItinerary.tasksList.append(Task(tmpItineraryTasks[i]['taskName'],
                                                                            float(tmpItineraryTasks[i]['taskDuration']),
                                                                            # parse values to taskList
-                                                                           Machine(taskMachine["machineName"])))
+                                                                           [ mac for mac in taskMachine["machineName"]]))
                         # add itinerary to global list, beacuse parsing finished
                 itinerariesList.append(tmpItinerary)
 
