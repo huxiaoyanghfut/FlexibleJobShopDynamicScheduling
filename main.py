@@ -1,4 +1,5 @@
-from algorithms import prepareJobs, algorithmSPT, reschedulingSPT
+from algorithms import prepareJobs, algorithmSPT
+from rescheduleAlgorithms import *
 from chartGanttCreator import createGanttChart
 from parseData import parseData
 import copy
@@ -16,7 +17,7 @@ def main():
         time = float(input("请输入重调度时间（0~Cmax之间）："))
         insertItineraryList = parseNewData()
         insertJobList = prepareJobs(machinesList, insertItineraryList)
-        resultReschedule = reschedulingSPT(resultSPT, time, insertJobList, machinesList)
+        resultReschedule = rescheduleInsertJobsSPT(resultSPT, time, insertJobList, machinesList)
         insertItineraryList.extend(itinerariesList)
         createGanttChart(resultReschedule, machinesList, insertItineraryList, time)
     elif yourChoice == "n":
