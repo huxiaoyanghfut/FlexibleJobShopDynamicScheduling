@@ -6,7 +6,7 @@ import matplotlib.ticker as ticker
 
 
 # =========================================================================================
-def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
+def createGanttChart(aJobsList, machinesList, time=0):
     """Creates graph in specified aFrame"""
 
     plt.figure()
@@ -17,14 +17,14 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     chartTitle = "Gantt chart  Cmax=" + str(cMax) +"\n"
     plt.title(chartTitle, fontsize=12)
 
-
-    chartDetails = ""
-    for i, itinerary in enumerate(itinerariesList):
-        arr = [job for job in aJobsList if job.itinerary == itinerary.name]
-        arr.sort(key=lambda x: x.endTime)
-        chartDetails = chartDetails + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
-
-    plt.suptitle(chartDetails, fontsize=10)
+    ## 计算各个工件的完工时间
+    # chartDetails = ""
+    # for i, itinerary in enumerate(itinerariesList):
+    #     arr = [job for job in aJobsList if job.itinerary == itinerary.name]
+    #     arr.sort(key=lambda x: x.endTime)
+    #     chartDetails = chartDetails + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
+    #
+    # plt.suptitle(chartDetails, fontsize=10)
 
 
     # values for machines y axis
@@ -46,8 +46,6 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     for job in uniqueItinerariesInJobList:
         legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
     plt.legend(handles=legendsColors, fontsize=8)
-
-
 
     tuplesForMachineAxis = []
     colorsForMachineAxis = []

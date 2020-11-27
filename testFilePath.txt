@@ -1,6 +1,7 @@
+intial：
 C:\Users\asus\PycharmProjects\FlexibleJobShopDynamicScheduling\TestCase M5 X J9 202011090014\JobShop PRO - randomExport  20201109001431.json
 
-
+reschedule：
 C:\Users\asus\PycharmProjects\FlexibleJobShopDynamicScheduling\TestCase M5 X J9 202011090014\InsertJob.json
 
 C:\Users\asus\PycharmProjects\FlexibleJobShopDynamicScheduling\Test Files\przypadek1.json
