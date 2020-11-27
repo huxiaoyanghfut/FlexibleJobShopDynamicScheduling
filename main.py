@@ -1,4 +1,4 @@
-from algorithms import *
+from algorithms import prepareJobs algorithmSPT
 from chartGanttCreator import createGanttChart
 from parseData import parseData
 import copy
