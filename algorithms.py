@@ -61,6 +61,7 @@ def algorithmSPT(aJobsList, machinesList):
         if len(operations):
             operations[0].startTime = 0
             operations[0].completed = True
+            operations[0].assignedMachine = keyMach
 
             # push task to production, and create new event to stop at,
             # on ending time, then update machines time
@@ -79,6 +80,7 @@ def algorithmSPT(aJobsList, machinesList):
 
                     tasks[0].startTime = float(t)
                     tasks[0].completed = True
+                    tasks[0].assignedMachine = keyMach
 
                     jobsListToExport.append(tasks[0])
 
@@ -201,6 +203,7 @@ def reschedulingSPT(jobsListExportPrevious, recheduleTime, insertJobsList, machi
                         continue
                     tasks[0].startTime = float(t)
                     tasks[0].completed = True
+                    tasks[0].assignedMachine = keyMach
 
                     jobsListToExportNew.append(tasks[0])
 

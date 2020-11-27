@@ -53,7 +53,7 @@ def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     colorsForMachineAxis = []
     for index, machLabel in enumerate(machinesNamesRev):
         for job in aJobsList:
-            if job.machine == machLabel:
+            if job.assignedMachine == machLabel:
                 tuplesForMachineAxis.append(job.getTupleStartAndDuration())
                 colorsForMachineAxis.append(job.colorOfItinerary)
         ax.broken_barh(tuplesForMachineAxis, ((index + 1) * 10, 9), facecolors=colorsForMachineAxis)
