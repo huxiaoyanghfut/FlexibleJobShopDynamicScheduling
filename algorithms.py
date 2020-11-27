@@ -181,19 +181,19 @@ def reschedulingSPT(jobsListExportPrevious, recheduleTime, insertJobsList, machi
     # 遍历机器，生成每个机器前工序集合和需要重调度的工序集合
     for machine in machinesList:
         allPreviousOperations[machine.name] = [job for job in jobsListExportPrevious if
-                                               job.machine == machine.name]
+                                               job.assignedMachine == machine.name]
         allPreviousOperations[machine.name].sort(key=lambda j: j.startTime)
         rescheduleOperations[machine.name] = [job for job in jobsListExportPrevious if
-                                              job.machine == machine.name and job.startTime >= recheduleTime]
+                                              job.assignedMachine == machine.name and job.startTime >= recheduleTime]
         rescheduleOperations[machine.name].sort(key=lambda j: j.startTime)
+
         #重调度时刻机器时间更新
         unchangedLength = len(allPreviousOperations[machine.name]) - len(rescheduleOperations[machine.name])
         unchangedOperations[machine.name] = allPreviousOperations[machine.name][0:unchangedLength]
         currentTimeOnMachines[machine.name] = unchangedOperations[machine.name][-1].endTime
-
-
         if currentTimeOnMachines[machine.name] < recheduleTime:
             currentTimeOnMachines[machine.name] = recheduleTime
+
         # 初始化各机器时间
         time[currentTimeOnMachines[machine.name]] = {}
 
@@ -202,31 +202,30 @@ def reschedulingSPT(jobsListExportPrevious, recheduleTime, insertJobsList, machi
         for job in rescheduleOperations[machine.name]:
             job.startTime = 0
             job.completed = False
+
         # 输出无需重调度的任务结果
         for job in unchangedOperations[machine.name]:
             jobsListToExportNew.append(job)
+
     for machine in machinesList:
-        #各机器下添加插入的任务
-        for job in insertJobsList:
-            if job.machine == machine.name:
-                rescheduleOperations[machine.name].append(job)
         #生成重调度列表
         for job in rescheduleOperations[machine.name]:
             rescheduleJobsList.append(job)
+    rescheduleJobsList.extend(insertJobsList)
     allJobsList = jobsListToExportNew + rescheduleJobsList
     # 调度时间初始化
     time = SortedDict(time)
     while len(jobsListToExportNew) < len(jobsListExportPrevious) + len(insertJobsList):
         for t, operations in time.items():
-            operations = rescheduleGetWaitingOperationsSPT(allJobsList, float(t), machinesList)
+            operations = rescheduleGetWaitingOperationsSPT(allJobsList, float(t), machinesList,  currentTimeOnMachines)
 
             for keyMach, tasks in operations.items():
                 if len(tasks):
-                    if float(t) < currentTimeOnMachines[tasks[0].machine]:
+                    if float(t) < currentTimeOnMachines[keyMach]:
                         continue
                     tasks[0].startTime = float(t)
                     tasks[0].completed = True
-
+                    tasks[0].assignedMachine = keyMach
                     jobsListToExportNew.append(tasks[0])
 
                     currentTimeOnMachines[keyMach] = tasks[0].getEndTime()
@@ -235,13 +234,10 @@ def reschedulingSPT(jobsListExportPrevious, recheduleTime, insertJobsList, machi
             del time[t]
             break
         time = SortedDict(time)  # chronological order
-    finalOperation = {}
-    for machine in machinesList:
-        finalOperation[machine] = [job for job in jobsListToExportNew if job.machine == machine.name]
     return jobsListToExportNew
 
 
-def rescheduleGetWaitingOperationsSPT(aJobsList, nowTime, machinesList):
+def rescheduleGetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMachines):
     """Get waiting jobs at current time in shortest duration order"""
 
     incomingOperations = {}
@@ -249,7 +245,19 @@ def rescheduleGetWaitingOperationsSPT(aJobsList, nowTime, machinesList):
 
     # global machinesList
     for mach in machinesList:
-        assignedJobsForMachine = [job for job in aJobsList if job.completed == False and job.machine == mach.name]
+        assignedJobsForMachine = []
+        for job in aJobsList:
+            if job.completed == False and mach.name in job.machine:
+                if len(job.machine) ==1:
+                    assignedJobsForMachine.append(job)
+                else:
+                    minTimeMachine = mach.name
+                    for mac in job.machine:
+                        if currentTimeOnMachines[mac] <  currentTimeOnMachines[minTimeMachine]:
+                            minTimeMachine = mac
+                    if minTimeMachine == mach.name:
+                        assignedJobsForMachine.append(job)
+
         incomingOperations[mach.name] = []
 
         for j in assignedJobsForMachine:
