@@ -59,7 +59,7 @@ def algorithmSPT(aJobsList, machinesList):
                 else:
                     minTimeMachine = machine.name
                     for mac in job.machine:
-                        if currentTimeOnMachines[mac.name] <  currentTimeOnMachines[minTimeMachine]:
+                        if currentTimeOnMachines[mac] <  currentTimeOnMachines[minTimeMachine]:
                             minTimeMachine = mac.name
                     if minTimeMachine == machine.name:
                         waitingOperations[machine.name].append(job)
@@ -83,7 +83,7 @@ def algorithmSPT(aJobsList, machinesList):
 
     while len(jobsListToExport) != len(aJobsList):
         for t, operations in time.items():
-            operations = getWaitingOperationsSPT(aJobsList, float(t), machinesList)
+            operations = getWaitingOperationsSPT(aJobsList, float(t), machinesList, currentTimeOnMachines)
 
             for keyMach, tasks in operations.items():
                 if len(tasks):
@@ -106,7 +106,7 @@ def algorithmSPT(aJobsList, machinesList):
     return jobsListToExport
 
 
-def getWaitingOperationsSPT(aJobsList, time, machinesList):
+def getWaitingOperationsSPT(aJobsList, time, machinesList, currentTimeOnMachines):
     """Get waiting jobs at current time in shortest duration order"""
 
     incomingOperations = {}
@@ -121,8 +121,8 @@ def getWaitingOperationsSPT(aJobsList, time, machinesList):
                 else:
                     minTimeMachine = mach.name
                     for mac in job.machine:
-                        if currentTimeOnMachines[mac.name] <  currentTimeOnMachines[minTimeMachine]:
-                            minTimeMachine = mac.name
+                        if currentTimeOnMachines[mac] <  currentTimeOnMachines[minTimeMachine]:
+                            minTimeMachine = mac
                     if minTimeMachine == mach.name:
                         assignedJobsForMachine.append(job)
         incomingOperations[mach.name] = []
