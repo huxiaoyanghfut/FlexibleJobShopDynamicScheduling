@@ -159,6 +159,3 @@ def generate_new_color(existing_colors, pastel_factor=0.5):
             max_distance = best_distance
             best_color = color
     return best_color
-
-
-

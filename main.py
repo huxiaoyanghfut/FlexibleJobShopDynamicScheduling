@@ -1,6 +1,6 @@
 from algorithms import prepareJobs, algorithmSPT
 from rescheduleAlgorithms import *
-from chartGanttCreator import createGanttChart
+from ganttCreator import createGanttChart
 from parseData import parseData
 import copy
 
