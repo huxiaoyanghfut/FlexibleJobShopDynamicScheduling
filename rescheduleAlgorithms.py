@@ -217,28 +217,28 @@ def recheduleMachineFault(jobsListExportPrevious, rescheduleTime,faultyMachine, 
         for job in rescheduleOperations[machine.name]:
             rescheduleJobsList.append(job)
     rescheduleJobsList.sort(key=lambda j: j.startTime)
-    #去除受机器故障影响的任务
-    for job in rescheduleJobsList:
-        if job.assignedMachine == faultyMachine:
-            if len(job.machine) == 1:
+
+    #得到受影响的工艺路线号
+    for job in rescheduleOperations[faultyMachine]:
+        if len(job.machine) == 1:
                 unscheduleItinerarys.append(job.idItinerary)
-                continue
-            elif job.idItinerary in unscheduleItinerarys:
-                continue
-            else:
-                rescheduleJobsList.append(job)
-        elif job.idItinerary in unscheduleItinerarys:
+
+    #去除受机器故障影响的任务
+    rescheduleJobsListUpdate = []
+    for job in rescheduleJobsList:
+        if job.idItinerary in unscheduleItinerarys:
             continue
         else:
-            rescheduleJobsList.append(job)
-    #机器列表更新
+            rescheduleJobsListUpdate.append(job)
+    # 机器列表更新
     machinesAvailableList = [machine for machine in machinesList if machine.name != faultyMachine]
-    allJobsList = jobsListToExportNew + rescheduleJobsList
+    allJobsList = jobsListToExportNew + rescheduleJobsListUpdate
+
     # 调度时间初始化
     time = SortedDict(time)
     while len(jobsListToExportNew) < len(allJobsList):
         for t, operations in time.items():
-            operations = GetWaitingOperationsSPT(allJobsList, float(t), machinesAvailableList, currentTimeOnMachines)
+            operations = GetWaitingOperationsSPT(allJobsList, float(t), machinesAvailableList, currentTimeOnMachines, faultyMachine)
 
             for keyMach, tasks in operations.items():
                 if len(tasks):
@@ -259,7 +259,7 @@ def recheduleMachineFault(jobsListExportPrevious, rescheduleTime,faultyMachine, 
 
 
 
-def GetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMachines):
+def GetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMachines, faultyMachine=""):
     """Get waiting jobs at current time in shortest duration order"""
 
     incomingOperations = {}
@@ -273,7 +273,9 @@ def GetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMach
                 else:
                     minTimeMachine = mach.name
                     for mac in job.machine:
-                        if currentTimeOnMachines[mac] <  currentTimeOnMachines[minTimeMachine]:
+                        if mac == faultyMachine:
+                            continue
+                        elif currentTimeOnMachines[mac] <  currentTimeOnMachines[minTimeMachine]:
                             minTimeMachine = mac
                     if minTimeMachine == mach.name:
                         assignedJobsForMachine.append(job)
@@ -299,6 +301,3 @@ def GetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMach
                 incomingOperations[mach.name].insert(0, temp)
                 break
     return incomingOperations
-
-    # TODO:更改优先级情况下重调度
-    # TODO:机器故障下重调度

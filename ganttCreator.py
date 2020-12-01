@@ -6,7 +6,7 @@ import matplotlib.ticker as ticker
 
 
 # =========================================================================================
-def createGanttChart(aJobsList, machinesList, time=0):
+def createGanttChart(aJobsList, machinesList, time=40):
     """Creates graph in specified aFrame"""
 
     plt.figure()
