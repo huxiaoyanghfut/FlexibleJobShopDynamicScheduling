@@ -26,8 +26,8 @@ def main():
             print(66 * "-")
             rescheduleChoice = input("输入你的选择 [1-4]: ")
             if rescheduleChoice == "1":
-                input("请输入紧急订单保存路径[文件路径]:")
-                insertItineraryList = parseNewData()
+                savePath = input("请输入紧急订单保存路径[文件路径]:")
+                insertItineraryList = parseNewData(savePath)
                 insertJobList = prepareJobs(machinesList, insertItineraryList)
                 resultInsertReschedule = rescheduleInsertJobsSPT(resultSPT, rescheduleTime, insertJobList, machinesList)
                 insertItineraryList.extend(itinerariesList)
@@ -36,7 +36,10 @@ def main():
                 priorItinerary = int(input("请输入优先的工件序号:"))
                 resultPriorReschedule = recheduleChangePriority(resultSPT, rescheduleTime, priorItinerary, machinesList)
                 createGanttChart(resultPriorReschedule, machinesList, rescheduleTime)
-
+            elif rescheduleChoice == "3":
+                faultyMachine = input("请输入发生故障的机器号[如：M3]：")
+                resultFaultyReschedule = recheduleMachineFault(resultSPT, rescheduleTime, faultyMachine, machinesList)
+                createGanttChart(resultFaultyReschedule, machinesList, rescheduleTime)
             elif rescheduleChoice == "4":
                 return 0
 

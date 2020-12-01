@@ -4,14 +4,14 @@ from clJob import Job
 from clItinerary import  Itinerary
 from clMachine import Machine
 #插入紧急订单重调度
-def rescheduleInsertJobsSPT(jobsListExportPrevious, recheduleTime, insertJobsList, machinesList):
+def rescheduleInsertJobsSPT(jobsListExportPrevious, rescheduleTime, insertJobsList, machinesList):
     """
 
-    :param jobsListExportPrevious:
-    :param recheduleTime:
-    :param insertJobsList:
-    :param machinesList:
-    :return: jobsListToExportNew
+    :param jobsListExportPrevious: 任务初始调度结果
+    :param rescheduleTime: 重调度时间
+    :param insertJobsList: 插入的任务列表
+    :param machinesList: 当前可用的机器列表
+    :return: jobsListToExportNew 任务重调度结果
     """
     time = {}
     allPreviousOperations = {}
@@ -26,15 +26,15 @@ def rescheduleInsertJobsSPT(jobsListExportPrevious, recheduleTime, insertJobsLis
                                                job.assignedMachine == machine.name]
         allPreviousOperations[machine.name].sort(key=lambda j: j.startTime)
         rescheduleOperations[machine.name] = [job for job in jobsListExportPrevious if
-                                              job.assignedMachine == machine.name and job.startTime >= recheduleTime]
+                                              job.assignedMachine == machine.name and job.startTime >= rescheduleTime]
         rescheduleOperations[machine.name].sort(key=lambda j: j.startTime)
 
         #重调度时刻机器时间更新
         unchangedLength = len(allPreviousOperations[machine.name]) - len(rescheduleOperations[machine.name])
         unchangedOperations[machine.name] = allPreviousOperations[machine.name][0:unchangedLength]
         currentTimeOnMachines[machine.name] = unchangedOperations[machine.name][-1].endTime
-        if currentTimeOnMachines[machine.name] < recheduleTime:
-            currentTimeOnMachines[machine.name] = recheduleTime
+        if currentTimeOnMachines[machine.name] < rescheduleTime:
+            currentTimeOnMachines[machine.name] = rescheduleTime
 
         # 初始化各机器时间
         time[currentTimeOnMachines[machine.name]] = {}
@@ -80,7 +80,15 @@ def rescheduleInsertJobsSPT(jobsListExportPrevious, recheduleTime, insertJobsLis
         time = SortedDict(time)  # chronological order
     return jobsListToExportNew
 
-def recheduleChangePriority(jobsListExportPrevious, recheduleTime,priorItinerary, machinesList):
+def recheduleChangePriority(jobsListExportPrevious, rescheduleTime,priorItinerary, machinesList):
+    """
+
+    :param jobsListExportPrevious: 初始调度结果
+    :param rescheduleTime: 重调度时间
+    :param priorItinerary: 优先的任务序号
+    :param machinesList: 可用机器列表
+    :return: jobsListToExportNew: 重调度方案
+    """
     time = {}
     allPreviousOperations = {}
     rescheduleOperations = {}
@@ -94,15 +102,15 @@ def recheduleChangePriority(jobsListExportPrevious, recheduleTime,priorItinerary
                                                job.assignedMachine == machine.name]
         allPreviousOperations[machine.name].sort(key=lambda j: j.startTime)
         rescheduleOperations[machine.name] = [job for job in jobsListExportPrevious if
-                                              job.assignedMachine == machine.name and job.startTime >= recheduleTime]
+                                              job.assignedMachine == machine.name and job.startTime >= rescheduleTime]
         rescheduleOperations[machine.name].sort(key=lambda j: j.startTime)
 
         # 重调度时刻机器时间更新
         unchangedLength = len(allPreviousOperations[machine.name]) - len(rescheduleOperations[machine.name])
         unchangedOperations[machine.name] = allPreviousOperations[machine.name][0:unchangedLength]
         currentTimeOnMachines[machine.name] = unchangedOperations[machine.name][-1].endTime
-        if currentTimeOnMachines[machine.name] < recheduleTime:
-            currentTimeOnMachines[machine.name] = recheduleTime
+        if currentTimeOnMachines[machine.name] < rescheduleTime:
+            currentTimeOnMachines[machine.name] = rescheduleTime
 
         # 初始化各机器时间
         time[currentTimeOnMachines[machine.name]] = {}
@@ -147,6 +155,110 @@ def recheduleChangePriority(jobsListExportPrevious, recheduleTime,priorItinerary
             break
         time = SortedDict(time)  # chronological order
     return jobsListToExportNew
+
+def recheduleMachineFault(jobsListExportPrevious, rescheduleTime,faultyMachine, machinesList):
+    pass
+    #TODO
+
+    time = {}
+    allPreviousOperations = {}
+    rescheduleOperations = {}
+    rescheduleJobsList = []
+    currentTimeOnMachines = {}
+    jobsListToExportNew = []
+    unchangedOperations = {}
+    unscheduleItinerarys = []
+
+
+    # 遍历机器，生成每个机器前工序集合和需要重调度的工序集合
+    for machine in machinesList:
+        allPreviousOperations[machine.name] = [job for job in jobsListExportPrevious if
+                                               job.assignedMachine == machine.name]
+        allPreviousOperations[machine.name].sort(key=lambda j: j.startTime)
+        rescheduleOperations[machine.name] = [job for job in jobsListExportPrevious if
+                                              job.assignedMachine == machine.name and job.startTime >= rescheduleTime]
+        rescheduleOperations[machine.name].sort(key=lambda j: j.startTime)
+
+        # 重调度时刻机器时间更新
+        unchangedLength = len(allPreviousOperations[machine.name]) - len(rescheduleOperations[machine.name])
+        unchangedOperations[machine.name] = allPreviousOperations[machine.name][0:unchangedLength]
+
+        #如果故障机器上有未完工任务，则把该任务工艺路线后续任务不参与重调度
+
+
+        currentTimeOnMachines[machine.name] = unchangedOperations[machine.name][-1].endTime
+        if currentTimeOnMachines[machine.name] < rescheduleTime:
+            currentTimeOnMachines[machine.name] = rescheduleTime
+
+        # 初始化各机器时间
+        time[currentTimeOnMachines[machine.name]] = {}
+
+        # 更新各机器下重调度工序状态
+        unchangedOperations[machine.name][-1].completed = True
+        for job in rescheduleOperations[machine.name]:
+            job.completed = False
+
+        # 输出无需重调度的任务结果
+        for job in unchangedOperations[machine.name]:
+            jobsListToExportNew.append(job)
+
+    # 1.先识别出故障机器前未完工任务（包括正在加工的）
+    # 2. 遍历上述任务列表：
+    #    如果任务可选机器列表长度为1，则重调度任务列表中不加入该任务；
+    #    并且记录该任务的工艺路线号，后续是该工艺路线号的任务不参与调度；
+    #    否则将任务加入重调度任务列表
+
+    if unchangedOperations[faultyMachine][-1].endTime > rescheduleTime:
+        unscheduleItinerarys.append(unchangedOperations[faultyMachine][-1].idItinerary)
+
+    # 生成重调度初始列表
+    for machine in machinesList:
+
+        for job in rescheduleOperations[machine.name]:
+            rescheduleJobsList.append(job)
+    rescheduleJobsList.sort(key=lambda j: j.startTime)
+    #去除受机器故障影响的任务
+    for job in rescheduleJobsList:
+        if job.assignedMachine == faultyMachine:
+            if len(job.machine) == 1:
+                unscheduleItinerarys.append(job.idItinerary)
+                continue
+            elif job.idItinerary in unscheduleItinerarys:
+                continue
+            else:
+                rescheduleJobsList.append(job)
+        elif job.idItinerary in unscheduleItinerarys:
+            continue
+        else:
+            rescheduleJobsList.append(job)
+    #机器列表更新
+    machinesAvailableList = [machine for machine in machinesList if machine.name != faultyMachine]
+    allJobsList = jobsListToExportNew + rescheduleJobsList
+    # 调度时间初始化
+    time = SortedDict(time)
+    while len(jobsListToExportNew) < len(allJobsList):
+        for t, operations in time.items():
+            operations = GetWaitingOperationsSPT(allJobsList, float(t), machinesAvailableList, currentTimeOnMachines)
+
+            for keyMach, tasks in operations.items():
+                if len(tasks):
+                    if float(t) < currentTimeOnMachines[keyMach]:
+                        continue
+                    tasks[0].startTime = float(t)
+                    tasks[0].completed = True
+                    tasks[0].assignedMachine = keyMach
+                    jobsListToExportNew.append(tasks[0])
+
+                    currentTimeOnMachines[keyMach] = tasks[0].getEndTime()
+                    time[currentTimeOnMachines[keyMach]] = {}
+
+            del time[t]
+            break
+        time = SortedDict(time)  # chronological order
+    return jobsListToExportNew
+
+
+
 def GetWaitingOperationsSPT(aJobsList, nowTime, machinesList,  currentTimeOnMachines):
     """Get waiting jobs at current time in shortest duration order"""
 
