@@ -42,6 +42,8 @@ def main():
                 createGanttChart(resultFaultyReschedule, machinesList, rescheduleTime)
             elif rescheduleChoice == "4":
                 return 0
+        elif yourChoice == "n":
+            return 0
 
 if __name__ == '__main__':
     main()

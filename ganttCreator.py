@@ -3,18 +3,18 @@ from math import fmod
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-
+plt.rcParams['font.sans-serif']=['SimHei']
 
 # =========================================================================================
-def createGanttChart(aJobsList, machinesList, time=40):
+def createGanttChart(aJobsList, machinesList, time=0):
     """Creates graph in specified aFrame"""
 
     plt.figure()
     cMax = max([j.endTime for j in aJobsList])
     chartFig, ax = plt.subplots()
-    ax.set_xlabel('Time', fontsize=12)  # description of axis and chart title
-    ax.set_ylabel('Machines', fontsize=12)
-    chartTitle = "Gantt chart  Cmax=" + str(cMax) +"\n"
+    ax.set_xlabel('时间', fontsize=12)  # description of axis and chart title
+    ax.set_ylabel('机器', fontsize=12)
+    chartTitle = "甘特图  Cmax=" + str(cMax) +"\n"
     plt.title(chartTitle, fontsize=12)
 
     ## 计算各个工件的完工时间
