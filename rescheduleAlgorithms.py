@@ -157,8 +157,6 @@ def recheduleChangePriority(jobsListExportPrevious, rescheduleTime,priorItinerar
     return jobsListToExportNew
 
 def recheduleMachineFault(jobsListExportPrevious, rescheduleTime,faultyMachine, machinesList):
-    pass
-    #TODO
 
     time = {}
     allPreviousOperations = {}
