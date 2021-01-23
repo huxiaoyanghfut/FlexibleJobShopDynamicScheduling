@@ -6,21 +6,21 @@
                 {
                     "taskName": "Task 1",
                     "taskMachine": {
-                        "machineName": "M1"
+                        "machineName": ["M1"]
                     },
                     "taskDuration": 10.0
                 },
                 {
                     "taskName": "Task 2",
                     "taskMachine": {
-                        "machineName": "M2"
+                        "machineName": ["M2"]
                     },
                     "taskDuration": 5.0
                 },
                 {
                     "taskName": "Task 3",
                     "taskMachine": {
-                        "machineName": "M3"
+                        "machineName": ["M3"]
                     },
                     "taskDuration": 35.0
                 }
@@ -32,28 +32,28 @@
                 {
                     "taskName": "Task 1",
                     "taskMachine": {
-                        "machineName": "M2"
+                        "machineName": ["M2"]
                     },
                     "taskDuration": 25.0
                 },
                 {
                     "taskName": "Task 2",
                     "taskMachine": {
-                        "machineName": "M1"
+                        "machineName": ["M1"]
                     },
                     "taskDuration": 5.0
                 },
                 {
                     "taskName": "Task 3",
                     "taskMachine": {
-                        "machineName": "M3"
+                        "machineName": ["M3"]
                     },
                     "taskDuration": 30.0
                 },
                 {
                     "taskName": "Task 4",
                     "taskMachine": {
-                        "machineName": "M4"
+                        "machineName": ["M4"]
                     },
                     "taskDuration": 15.0
                 }
@@ -65,14 +65,14 @@
                 {
                     "taskName": "Task 1",
                     "taskMachine": {
-                        "machineName": "M2"
+                        "machineName": ["M2"]
                     },
                     "taskDuration": 5.0
                 },
                 {
                     "taskName": "Task 2",
                     "taskMachine": {
-                        "machineName": "M4"
+                        "machineName": ["M4"]
                     },
                     "taskDuration": 10.0
                 }
@@ -84,28 +84,28 @@
                 {
                     "taskName": "Task 1",
                     "taskMachine": {
-                        "machineName": "M2"
+                        "machineName": ["M2"]
                     },
                     "taskDuration": 15.0
                 },
                 {
                     "taskName": "Task 2",
                     "taskMachine": {
-                        "machineName": "M3"
+                        "machineName": ["M3"]
                     },
                     "taskDuration": 10.0
                 },
                 {
                     "taskName": "Task 3",
                     "taskMachine": {
-                        "machineName": "M4"
+                        "machineName": ["M4"]
                     },
                     "taskDuration": 20.0
                 },
                 {
                     "taskName": "Task 4",
                     "taskMachine": {
-                        "machineName": "M1"
+                        "machineName": ["M1"]
                     },
                     "taskDuration": 10.0
                 }
