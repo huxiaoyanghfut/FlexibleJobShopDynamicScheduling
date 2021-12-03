@@ -5,9 +5,8 @@ from clMachine import Machine
 from clTask import Task
 
 
-def parseNewData():
+def parseNewData(savePath):
     itinerariesList = []
-    savePath = input("请输入数据保存路径：")
     with open(savePath, 'r', encoding="utf8") as input_file:  # read file from path
         importedData = json.loads(input_file.read())
     imitineraryName = importedData['itineraryName']

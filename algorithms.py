@@ -16,10 +16,12 @@ def prepareJobs(machinesList, itinerariesList):
     itineraryColors = []
 
     pastelFactor = random.uniform(0, 1)
-    # parse all tasks from all itineraries
+    # 从工艺路径任务中解析出每一个工序任务
     for idItinerary, itineraryObj in enumerate(itinerariesList):
+    # 为每一条工艺路线创建不同的颜色
         itineraryColors.append(
-            generate_new_color(itineraryColors, pastelFactor))  # create new color for every new itinerary
+            generate_new_color(itineraryColors, pastelFactor))
+    #实例化每一个工序任务，创建工序任务列表
         for idTask, taskObj in enumerate(itineraryObj.tasksList):
             if itineraryObj.name == "Itinerary 0":
                 jobsList.append(Job(itineraryObj.name, itineraryColors[idItinerary], idTask + 1, 0,
@@ -34,17 +36,18 @@ def algorithmSPT(aJobsList, machinesList):
     """
     SPT/SJF heuristic algorithm for job shop problem
     """
-
-    time = {} # 记录某一时间各机器前的任务等待队列，相当于时间进度条，模拟时间流逝，推进排队
+    # 记录某一时间各机器前的任务等待队列，相当于时间进度条，模拟时间流逝，推进排队
+    time = {} 
     waitingOperations = {}
-    currentTimeOnMachines = {}  #当前机器时间，可以用来更新time
+    # 当前机器时间，可以用来更新time
+    currentTimeOnMachines = {}  
     jobsListToExport = []
 
     # initialize machines times and get
     # first waiting operations for each machine
     # global machinesList, itinerariesList
 
-    #TODO 修改以处理一个任务可选多台机器的问题
+    
     for machine in machinesList:
         currentTimeOnMachines[machine.name] = 0
     #初始化各机器当前等待队列

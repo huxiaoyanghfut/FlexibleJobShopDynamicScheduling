@@ -5,13 +5,15 @@ from clMachine import Machine
 from clTask import Task
 
 
-def parseData():
-    """Tries to import JSON JobShop PRO file to program"""
+def parseData(filePath):
+    """
+    Tries to import JSON JobShop PRO file to program
+    :return machineList  itinerariesList
+    """
     machinesList = []
     itinerariesList = []
-    savePath = input("请输入数据保存路径：")
 
-    with open(savePath, 'r', encoding="utf8") as inputfile:  # read file from path
+    with open(filePath, 'r', encoding="utf8") as inputfile:  # read file from path
         importedData = json.loads(inputfile.read())
 
     if list(importedData.keys()) == ["itineraries", "machines"]:
@@ -30,7 +32,7 @@ def parseData():
                     if list(tmpItineraryTasks[i].keys()) == ['taskName', 'taskMachine', 'taskDuration']:
                         taskMachine = tmpItineraryTasks[i]['taskMachine']
 
-                        if list(taskMachine.keys()) == ["machineName"]:  # check corectness of elements
+                        if list(taskMachine.keys()) == ["machineName"]:  # check correctness of elements
                             tmpItinerary.tasksList.append(Task(tmpItineraryTasks[i]['taskName'],
                                                                            float(tmpItineraryTasks[i]['taskDuration']),
                                                                            # parse values to taskList
