@@ -1,52 +1,40 @@
-from math import fmod
-
+from matplotlib import ticker
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 plt.rcParams['font.sans-serif']=['SimHei']
 
 # =========================================================================================
-def createGanttChart(aJobsList, machinesList, time=0):
+def createGanttChart(aJobsList, machinesList, itinerariesList, time=0):
     """Creates graph in specified aFrame"""
 
     plt.figure()
     cMax = max([j.endTime for j in aJobsList])
-    chartFig, ax = plt.subplots()
-    ax.set_xlabel('时间', fontsize=12)  # description of axis and chart title
-    ax.set_ylabel('机器', fontsize=12)
+    plt.xlabel('时间', fontsize=12)  # description of axis and chart title
+    plt.ylabel('机器', fontsize=12)
     chartTitle = "甘特图  Cmax=" + str(cMax) +"\n"
     plt.title(chartTitle, fontsize=12)
 
-    ## 计算各个工件的完工时间
-    # chartDetails = ""
-    # for i, itinerary in enumerate(itinerariesList):
-    #     arr = [job for job in aJobsList if job.itinerary == itinerary.name]
-    #     arr.sort(key=lambda x: x.endTime)
-    #     chartDetails = chartDetails + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
-    #
-    # plt.suptitle(chartDetails, fontsize=10)
+    ## 计算各个工件的完工时间 OK
+    chartDetails = ""
+    for i, itinerary in enumerate(itinerariesList):
+        arr = [job for job in aJobsList if job.itinerary == itinerary.name]
+        arr.sort(key=lambda x: x.endTime)
+        chartDetails = chartDetails + " C" + str(arr[-1].itinerary[-1]) + "=" + str(arr[-1].endTime) + ","
+    
+    plt.suptitle(chartDetails, fontsize=10)
 
 
-    # values for machines y axis
+    # values for machines y axis OK
     machinesNamesRev = list(reversed([mach.name for mach in machinesList]))
-
     machinesTicksPos = [15]
     for i in range(len(machinesNamesRev[1:])):
         machinesTicksPos.append(machinesTicksPos[i] + 10)  # machine increase this +10
-    ax.set_yticks(machinesTicksPos)
-    ax.set_yticklabels(machinesNamesRev)  # set labels as machines names in reversed order
+    plt.yticks(machinesTicksPos, machinesNamesRev) # set labels as machines names in reversed order
 
-    ax.set_ylim(5, machinesTicksPos[-1] + 10)  # this is related with amout of machines and height (last machine+10) of chart.
-    ax.set_xlim(0, cMax + 20)  # from zero to end time of last job (max end time in job.endtime list)
+    plt.ylim(5, machinesTicksPos[-1] + 10)  # this is related with amout of machines and height (last machine+10) of chart.
+    plt.xlim(0, cMax + 20)  # from zero to end time of last job (max end time in job.endtime list)
 
-    # setting the legend (color and itinerary)
-    legendsColors = []
-    seen = set()
-    uniqueItinerariesInJobList = [job for job in aJobsList if job.itinerary not in seen and not seen.add(job.itinerary)]
-    for job in uniqueItinerariesInJobList:
-        legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
-    plt.legend(handles=legendsColors, fontsize=8)
-
+    #甘特图画矩形
     tuplesForMachineAxis = []
     colorsForMachineAxis = []
     for index, machLabel in enumerate(machinesNamesRev):
@@ -54,12 +42,24 @@ def createGanttChart(aJobsList, machinesList, time=0):
             if job.assignedMachine == machLabel:
                 tuplesForMachineAxis.append(job.getTupleStartAndDuration())
                 colorsForMachineAxis.append(job.colorOfItinerary)
-        ax.broken_barh(tuplesForMachineAxis, ((index + 1) * 10, 9), facecolors=colorsForMachineAxis)
-        tuplesForMachineAxis.clear()
-        colorsForMachineAxis.clear()
+        plt.gca().broken_barh(tuplesForMachineAxis, ((index + 1) * 10, 9), facecolors=colorsForMachineAxis)
+        tuplesForMachineAxis = []
+        colorsForMachineAxis = []
 
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(10))  # this is cosmetics to set unit to 10
-    for label in ax.get_xticklabels()[::2]:  # and show only every two ticks
+    # setting the legend (color and itinerary) OK 
+    legendsColors = []
+    seen = set()
+    uniqueItinerariesInJobList = [job for job in aJobsList if job.itinerary not in seen and not seen.add(job.itinerary)]
+    for job in uniqueItinerariesInJobList:
+        legendsColors.append(mpatches.Patch(color=job.colorOfItinerary, label=job.itinerary))  # legend color and name
+    plt.legend(handles=legendsColors, fontsize=8)
+
+    
+    
+    plt.grid(True)
+    plt.gca().xaxis.set_major_locator(ticker.MultipleLocator(10))
+    for label in plt.gca().get_xticklabels()[::2]:  # and show only every two ticks
         label.set_visible(False)
-    ax.axvline(time , ls='--', color='r')
+    plt.axvline(time , ls='--', color='r')
     plt.show()
+    

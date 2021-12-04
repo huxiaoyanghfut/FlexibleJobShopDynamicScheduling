@@ -10,7 +10,7 @@ def main():
     machinesList, itinerariesList = parseData(input("请输入数据保存路径："))
     jobsList = prepareJobs(machinesList, itinerariesList)
     resultSPT = algorithmSPT(copy.deepcopy(jobsList), machinesList)
-    createGanttChart(resultSPT, machinesList)
+    createGanttChart(resultSPT, machinesList, itinerariesList)
     loop = True
     while loop:
         yourChoice = input("是否需要进行重调度？[y/n]:")
@@ -30,15 +30,15 @@ def main():
                 insertJobList = prepareJobs(machinesList, insertItineraryList)
                 resultInsertReschedule = rescheduleInsertJobsSPT(resultSPT, rescheduleTime, insertJobList, machinesList)
                 insertItineraryList.extend(itinerariesList)
-                createGanttChart(resultInsertReschedule, machinesList, rescheduleTime)
+                createGanttChart(resultInsertReschedule, machinesList, itinerariesList, rescheduleTime)
             elif rescheduleChoice == "2":
                 priorItinerary = int(input("请输入优先的工件序号:"))
                 resultPriorReschedule = recheduleChangePriority(resultSPT, rescheduleTime, priorItinerary, machinesList)
-                createGanttChart(resultPriorReschedule, machinesList, rescheduleTime)
+                createGanttChart(resultPriorReschedule, machinesList, itinerariesList, rescheduleTime)
             elif rescheduleChoice == "3":
                 faultyMachine = input("请输入发生故障的机器号[如：M3]：")
                 resultFaultyReschedule = recheduleMachineFault(resultSPT, rescheduleTime, faultyMachine, machinesList)
-                createGanttChart(resultFaultyReschedule, machinesList, rescheduleTime)
+                createGanttChart(resultFaultyReschedule, machinesList, itinerariesList, rescheduleTime)
             elif rescheduleChoice == "4":
                 return 0
         elif yourChoice == "n":
