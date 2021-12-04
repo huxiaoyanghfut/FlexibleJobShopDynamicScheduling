@@ -3,9 +3,10 @@ from clTask import Task
 from clJob import Job
 from clItinerary import  Itinerary
 from clMachine import Machine
-#插入紧急订单重调度
+
 def rescheduleInsertJobsSPT(jobsListExportPrevious, rescheduleTime, insertJobsList, machinesList):
     """
+    插入紧急订单重调度
     :param jobsListExportPrevious: 任务初始调度结果
     :param rescheduleTime: 重调度时间
     :param insertJobsList: 插入的任务列表
